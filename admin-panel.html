@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="CafeLix administrator panel." />
+    <title>Admin Panel | CafeLix MilkTea Shop</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <script type="module" src="dashboard.js"></script>
+  </head>
+  <body data-required-role="admin">
+    <main class="dashboard">
+      <header class="dashboard-header">
+        <a class="dashboard-brand" href="admin-panel.html"
+          ><span class="brand-mark">C</span>CafeLix MilkTea Shop</a
+        >
+        <button
+          id="sign-out-button"
+          class="sign-out-button"
+          type="button"
+          hidden
+        >
+          Sign out
+        </button>
+      </header>
+      <section class="dashboard-content" aria-labelledby="page-title">
+        <p class="eyebrow">ADMINISTRATION</p>
+        <h1 id="page-title">Admin Panel</h1>
+        <p id="account-email" class="account-email"></p>
+        <p
+          id="access-status"
+          class="access-status"
+          role="status"
+          aria-live="polite"
+        >
+          Checking access…
+        </p>
+        <section
+          id="product-management"
+          class="management-panel"
+          aria-labelledby="product-management-title"
+          hidden
+        >
+          <div class="management-heading">
+            <div>
+              <h2 id="product-management-title">Create Product</h2>
+              <p>Add a product, price, and image for employees to order.</p>
+            </div>
+          </div>
+          <form id="product-form" class="product-form">
+            <label class="input-block">
+              <span class="input-label">Product name</span>
+              <input
+                id="product-name"
+                name="productName"
+                type="text"
+                maxlength="120"
+                placeholder="Classic Milk Tea"
+                required
+              />
+            </label>
+            <label class="input-block">
+              <span class="input-label">Size</span>
+              <input
+                id="product-size"
+                name="productSize"
+                type="text"
+                maxlength="40"
+                placeholder="Regular / Large"
+                required
+              />
+            </label>
+            <label class="input-block">
+              <span class="input-label">Price (PHP)</span>
+              <input
+                id="product-price"
+                name="productPrice"
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="99.00"
+                required
+              />
+            </label>
+            <label class="input-block">
+              <span class="input-label">Product image</span>
+              <input
+                id="product-image"
+                name="productImage"
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                required
+              />
+            </label>
+            <button id="save-product-button" class="input-button" type="submit">
+              Save product
+            </button>
+          </form>
+          <p
+            id="product-form-status"
+            class="access-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+        </section>
+        <section
+          id="employee-management"
+          class="management-panel"
+          aria-labelledby="employee-title"
+          hidden
+        >
+          <div class="management-heading">
+            <div>
+              <h2 id="employee-title">Employee accounts</h2>
+              <p>Approve, decline, or remove employee access.</p>
+            </div>
+            <button
+              id="refresh-users-button"
+              class="sign-out-button"
+              type="button"
+            >
+              Refresh
+            </button>
+          </div>
+          <p
+            id="employee-list-status"
+            class="access-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div class="table-wrap">
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Employee ID</th>
+                  <th>Username</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="employee-list"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

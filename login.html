@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sign in or create an account to continue."
+    />
+    <title>CafeLix MilkTea Shop | Sign in</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="login.css" />
+    <script type="module" src="login.js"></script>
+  </head>
+  <body class="auth-page">
+    <main class="container" aria-label="CafeLix MilkTea Shop">
+      <a class="scene-brand" href="login.html">
+        <span class="brand-mark brand-logo" aria-hidden="true">
+          <img src="Company Logo.jpg" alt="" />
+        </span>
+        <span>CafeLix <small>MILKTEA SHOP</small></span>
+      </a>
+      <div class="scene-caption">
+        <span>MADE FRESH, JUST FOR YOU</span>
+        <p>Your favorite moment<br />starts with a sip.</p>
+      </div>
+    </main>
+
+    <section id="auth-modal" class="modal">
+      <div
+        class="modal-container"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="form-title"
+        tabindex="-1"
+      >
+        <div class="modal-left">
+          <a class="modal-brand" href="login.html"
+            ><span class="brand-mark brand-logo" aria-hidden="true"
+              ><img src="Company Logo.jpg" alt=""
+            /></span>
+            CafeLix MilkTea Shop</a
+          >
+          <div class="card-heading">
+            <span class="eyebrow">WELCOME BACK</span>
+            <h1 id="form-title" class="modal-title">Welcome!</h1>
+            <p class="modal-desc">
+              Sign in to your CafeLix account and enjoy your favorite milk tea
+              moments.
+            </p>
+          </div>
+
+          <form id="auth-form">
+            <div class="input-block">
+              <label for="email" class="input-label">Email address</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+            <div class="input-block">
+              <div class="input-label-row">
+                <label for="password" class="input-label">Password</label>
+                <button
+                  id="toggle-password"
+                  class="text-button"
+                  type="button"
+                  aria-pressed="false"
+                >
+                  Show
+                </button>
+              </div>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Your password"
+                required
+              />
+            </div>
+            <div class="password-footer">
+              <a id="forgot-password-link" class="forgot-link" href="#"
+                >Forgot password?</a
+              >
+            </div>
+            <div class="modal-buttons">
+              <span aria-hidden="true"></span>
+              <button id="login-button" class="input-button" type="submit">
+                <span id="login-label">Login</span>
+              </button>
+            </div>
+          </form>
+
+          <p
+            id="auth-message"
+            class="auth-message"
+            role="status"
+            aria-live="polite"
+            hidden
+          ></p>
+          <button
+            id="resend-verification-button"
+            class="resend-verification-button"
+            type="button"
+            hidden
+          >
+            Resend verification email
+          </button>
+          <div id="account-panel" class="account-panel" hidden>
+            <p id="account-email"></p>
+            <button id="sign-out-button" class="sign-out-button" type="button">
+              Sign out
+            </button>
+          </div>
+          <p class="sign-up mode-prompt">
+            Don’t have an account? <a href="register.html">Sign up now</a>
+          </p>
+        </div>
+
+        <div class="modal-right">
+          <img
+            src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&amp;fit=crop&amp;w=1000&amp;q=80"
+            alt="A warm, sunlit cafe table"
+          />
+          <div class="photo-caption">
+            <span>CAFeLIX</span>
+            <p>A little sweetness<br />in every day.</p>
+          </div>
+        </div>
+        <button
+          id="close-modal"
+          class="icon-button close-button"
+          type="button"
+          aria-label="Close sign in panel"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 50 50"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              d="M25 3C12.862 3 3 12.862 3 25s9.862 22 22 22 22-9.862 22-22S37.138 3 25 3zm0 2c11.058 0 20 8.942 20 20s-8.942 20-20 20S5 36.058 5 25 13.942 5 25 5zm-8.01 10.99a1 1 0 0 0-.697 1.717L23.586 25l-7.293 7.293a1 1 0 1 0 1.414 1.414L25 26.414l7.293 7.293a1 1 0 1 0 1.414-1.414L26.414 25l7.293-7.293a1 1 0 0 0-.727-1.717 1 1 0 0 0-.688.303L25 23.586l-7.293-7.293a1 1 0 0 0-.717-.303z"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-actions">
+        <button id="open-modal" class="modal-button" type="button">
+          Click here to login
+        </button>
+        <a class="modal-button register-modal-button" href="register.html"
+          >Click here to register</a
+        >
+      </div>
+    </section>
+    <script src="auth-modal.js" defer></script>
+  </body>
+</html>

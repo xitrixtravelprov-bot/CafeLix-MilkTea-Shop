@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Create your account." />
+    <title>CafeLix MilkTea Shop | Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="login.css" />
+    <script type="module" src="register.js"></script>
+  </head>
+  <body class="auth-page">
+    <main class="container" aria-label="CafeLix MilkTea Shop">
+      <a class="scene-brand" href="login.html">
+        <span class="brand-mark brand-logo" aria-hidden="true">
+          <img src="Company Logo.jpg" alt="" />
+        </span>
+        <span>CafeLix <small>MILKTEA SHOP</small></span>
+      </a>
+      <div class="scene-caption">
+        <span>MADE FRESH, JUST FOR YOU</span>
+        <p>A new favorite<br />is waiting for you.</p>
+      </div>
+    </main>
+
+    <section id="auth-modal" class="modal">
+      <div
+        class="modal-container"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="form-title"
+        tabindex="-1"
+      >
+        <div class="modal-left">
+          <a class="modal-brand" href="login.html"
+            ><span class="brand-mark brand-logo" aria-hidden="true"
+              ><img src="Company Logo.jpg" alt=""
+            /></span>
+            CafeLix MilkTea Shop</a
+          >
+          <div class="card-heading">
+            <span class="eyebrow">JOIN CAFELIX</span>
+            <h1 id="form-title" class="modal-title">Create account</h1>
+            <p class="modal-desc">
+              Register as Admin or Employee. Only one Admin account is allowed.
+            </p>
+          </div>
+
+          <form id="register-form">
+            <div class="input-block">
+              <label for="email" class="input-label">Email address</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+            <div class="input-block">
+              <label for="employee-id" class="input-label">Employee ID</label>
+              <input
+                id="employee-id"
+                name="employeeId"
+                type="text"
+                autocomplete="off"
+                placeholder="EMP-001"
+                minlength="7"
+                maxlength="7"
+                pattern="EMP-[0-9]{3}"
+                title="Use the format EMP-001 (EMP-, followed by 3 digits)."
+                required
+              />
+            </div>
+            <div class="input-block">
+              <label for="username" class="input-label">Username</label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autocomplete="username"
+                placeholder="Choose a username"
+                minlength="3"
+                maxlength="30"
+                pattern="[A-Za-z0-9._-]{3,30}"
+                title="Use 3–30 letters, numbers, periods, underscores, or hyphens."
+                required
+              />
+            </div>
+            <div class="input-block">
+              <label for="role" class="input-label">Role</label>
+              <select id="role" name="role" required>
+                <option value="employee" selected>Employee</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div class="input-block">
+              <div class="input-label-row">
+                <label for="password" class="input-label">Password</label>
+                <button
+                  id="toggle-password"
+                  class="text-button"
+                  type="button"
+                  aria-pressed="false"
+                >
+                  Show
+                </button>
+              </div>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                placeholder="At least 6 characters"
+                minlength="6"
+                required
+              />
+            </div>
+            <div class="input-block">
+              <label for="confirm-password" class="input-label"
+                >Confirm password</label
+              >
+              <input
+                id="confirm-password"
+                name="confirmPassword"
+                type="password"
+                autocomplete="new-password"
+                placeholder="Enter your password again"
+                minlength="6"
+                required
+              />
+            </div>
+            <p class="admin-setup-help">
+              The first account must be Admin. After that, new accounts can only
+              be Employees.
+            </p>
+            <button
+              id="register-button"
+              class="input-button register-submit"
+              type="submit"
+            >
+              <span id="register-label">Create account</span>
+            </button>
+          </form>
+
+          <p
+            id="register-message"
+            class="auth-message"
+            role="status"
+            aria-live="polite"
+            hidden
+          ></p>
+          <p class="sign-up">
+            Already have an account? <a href="login.html">Sign in</a>
+          </p>
+        </div>
+
+        <div class="modal-right">
+          <img
+            src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&amp;fit=crop&amp;w=1000&amp;q=80"
+            alt="A warm, sunlit cafe table"
+          />
+          <div class="photo-caption">
+            <span>CAFeLIX</span>
+            <p>Your next favorite<br />is just a sip away.</p>
+          </div>
+        </div>
+        <button
+          id="close-modal"
+          class="icon-button close-button"
+          type="button"
+          aria-label="Close registration panel"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 50 50"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              d="M25 3C12.862 3 3 12.862 3 25s9.862 22 22 22 22-9.862 22-22S37.138 3 25 3zm0 2c11.058 0 20 8.942 20 20s-8.942 20-20 20S5 36.058 5 25 13.942 5 25 5zm-8.01 10.99a1 1 0 0 0-.697 1.717L23.586 25l-7.293 7.293a1 1 0 1 0 1.414 1.414L25 26.414l7.293 7.293a1 1 0 0 0 1.414-1.414L26.414 25l7.293-7.293a1 1 0 0 0-.727-1.717 1 1 0 0 0-.688.303L25 23.586l-7.293-7.293a1 1 0 0 0-.717-.303z"
+            />
+          </svg>
+        </button>
+      </div>
+      <button id="open-modal" class="modal-button" type="button">
+        Click here to register
+      </button>
+    </section>
+    <script src="auth-modal.js" defer></script>
+  </body>
+</html>

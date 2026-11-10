@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="CafeLix employee dashboard." />
+    <title>Employee Dashboard | CafeLix MilkTea Shop</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <script type="module" src="dashboard.js"></script>
+  </head>
+  <body data-required-role="employee">
+    <main class="dashboard">
+      <header class="dashboard-header">
+        <a class="dashboard-brand" href="employee-dashboard.html"
+          ><span class="brand-mark">C</span>CafeLix MilkTea Shop</a
+        >
+        <button
+          id="sign-out-button"
+          class="sign-out-button"
+          type="button"
+          hidden
+        >
+          Sign out
+        </button>
+      </header>
+      <section class="dashboard-content" aria-labelledby="page-title">
+        <p class="eyebrow">EMPLOYEE</p>
+        <h1 id="page-title">Employee Dashboard</h1>
+        <p id="account-email" class="account-email"></p>
+        <p id="account-username" class="account-username"></p>
+        <p
+          id="access-status"
+          class="access-status"
+          role="status"
+          aria-live="polite"
+        >
+          Checking access…
+        </p>
+        <section
+          id="product-catalog"
+          class="management-panel"
+          aria-labelledby="product-catalog-title"
+          hidden
+        >
+          <div class="management-heading">
+            <div>
+              <h2 id="product-catalog-title">Products</h2>
+              <p>
+                Add products to your cart, then complete checkout to record the
+                sale.
+              </p>
+            </div>
+            <button
+              id="refresh-products-button"
+              class="sign-out-button"
+              type="button"
+            >
+              Refresh
+            </button>
+          </div>
+          <p
+            id="product-catalog-status"
+            class="access-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div id="product-list" class="product-grid"></div>
+        </section>
+        <section
+          id="cart-panel"
+          class="history-panel cart-panel"
+          aria-labelledby="cart-title"
+          hidden
+        >
+          <div class="sales-history-heading">
+            <h2 id="cart-title">Cart (<span id="cart-count">0</span>)</h2>
+          </div>
+          <p
+            id="cart-status"
+            class="access-status"
+            role="status"
+            aria-live="polite"
+          >
+            Your cart is empty.
+          </p>
+          <div id="cart-items" class="cart-items"></div>
+          <div class="checkout-options">
+            <label class="input-block">
+              <span class="input-label">Payment Method</span>
+              <select id="payment-method" name="paymentMethod" required>
+                <option value="" selected disabled>
+                  Select payment method
+                </option>
+                <option value="Cash">Cash</option>
+                <option value="GCash">GCash</option>
+              </select>
+            </label>
+            <label class="input-block">
+              <span class="input-label">Order Type</span>
+              <select id="order-type" name="orderType" required>
+                <option value="" selected disabled>Select order type</option>
+                <option value="Dine-in">Dine-in</option>
+                <option value="Takeout">Takeout</option>
+              </select>
+            </label>
+          </div>
+          <div id="cash-payment-fields" class="cash-payment-fields" hidden>
+            <label class="input-block">
+              <span class="input-label">Amount Given by Customer (PHP)</span>
+              <input
+                id="cash-received"
+                name="cashReceived"
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="100.00"
+              />
+            </label>
+            <p class="change-display">
+              Change: <strong id="change-due">₱0.00</strong>
+            </p>
+          </div>
+          <div id="gcash-payment-fields" class="gcash-payment-fields" hidden>
+            <label class="input-block">
+              <span class="input-label">GCash Reference Number</span>
+              <input
+                id="gcash-reference-number"
+                name="gcashReferenceNumber"
+                type="text"
+                maxlength="100"
+                placeholder="Enter GCash reference number"
+              />
+            </label>
+          </div>
+          <div class="cart-checkout">
+            <p>Total: <strong id="cart-total">₱0.00</strong></p>
+            <button
+              id="checkout-button"
+              class="input-button"
+              type="button"
+              disabled
+            >
+              Complete order
+            </button>
+          </div>
+        </section>
+        <section
+          id="sales-panel"
+          class="history-panel"
+          aria-labelledby="sales-title"
+          hidden
+        >
+          <div class="sales-history-heading">
+            <h2 id="sales-title">Sales History</h2>
+            <button
+              id="refresh-sales-button"
+              class="sign-out-button"
+              type="button"
+            >
+              Refresh
+            </button>
+          </div>
+          <p
+            id="sales-history-status"
+            class="access-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div class="table-wrap">
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Product</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                  <th>Payment Method</th>
+                  <th>Order Type</th>
+                  <th>Amount Given</th>
+                  <th>Change</th>
+                  <th>GCash Reference Number</th>
+                </tr>
+              </thead>
+              <tbody id="sales-history-list"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

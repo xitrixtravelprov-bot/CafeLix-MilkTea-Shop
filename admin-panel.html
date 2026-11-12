@@ -6,13 +6,15 @@
     <meta name="description" content="CafeLix administrator panel." />
     <title>Admin Panel | CafeLix MilkTea Shop</title>
     <link rel="stylesheet" href="dashboard.css" />
-    <script type="module" src="dashboard.js"></script>
+    <script type="module" src="dashboard.js?v=20261112-login-logout-logs"></script>
   </head>
   <body data-required-role="admin">
     <main class="dashboard">
       <header class="dashboard-header">
         <a class="dashboard-brand" href="admin-panel.html"
-          ><span class="brand-mark">C</span>CafeLix MilkTea Shop</a
+          ><span class="brand-mark brand-logo"
+            ><img src="Company Logo.jpg" alt="CafeLix Milk Tea Shop logo" /></span
+          >CafeLix MilkTea Shop</a
         >
         <button
           id="sign-out-button"
@@ -23,28 +25,65 @@
           Sign out
         </button>
       </header>
-      <section class="dashboard-content" aria-labelledby="page-title">
-        <p class="eyebrow">ADMINISTRATION</p>
-        <h1 id="page-title">Admin Panel</h1>
-        <p id="account-email" class="account-email"></p>
-        <p
-          id="access-status"
-          class="access-status"
-          role="status"
-          aria-live="polite"
+      <div class="dashboard-layout">
+        <aside class="dashboard-sidebar">
+          <nav class="dashboard-nav" aria-label="Admin navigation">
+            <button
+              type="button"
+              class="active"
+              data-dashboard-view="product-management"
+              aria-current="page"
+              disabled
+            >
+              Create Product
+            </button>
+            <button
+              type="button"
+              data-dashboard-view="employee-management"
+              disabled
+            >
+              Employee Accounts
+            </button>
+            <button type="button" data-dashboard-view="delete-products-panel" disabled>
+              Delete Product
+            </button>
+            <button type="button" data-dashboard-view="sales-panel" disabled>
+              Sales History
+            </button>
+            <button type="button" data-dashboard-view="login-logout-logs" disabled>
+              Login / Logout Logs
+            </button>
+          </nav>
+        </aside>
+        <section
+          id="dashboard-overview"
+          class="dashboard-content"
+          aria-labelledby="page-title"
         >
-          Checking access…
-        </p>
+          <p class="eyebrow">ADMINISTRATION</p>
+          <h1 id="page-title">Admin Panel</h1>
+          <p id="account-email" class="account-email"></p>
+          <p
+            id="access-status"
+            class="access-status"
+            role="status"
+            aria-live="polite"
+          >
+            Checking access…
+          </p>
         <section
           id="product-management"
-          class="management-panel"
+          class="management-panel dashboard-view"
           aria-labelledby="product-management-title"
           hidden
         >
           <div class="management-heading">
             <div>
               <h2 id="product-management-title">Create Product</h2>
-              <p>Add a product, price, and image for employees to order.</p>
+              <p>
+                Add each flavor's price for the category sizes. Product QTY is
+                tracked per flavor, while Size QTY is shared by the category.
+              </p>
             </div>
           </div>
           <form id="product-form" class="product-form">
@@ -60,25 +99,26 @@
               />
             </label>
             <label class="input-block">
-              <span class="input-label">Size</span>
+              <span class="input-label">Category</span>
               <input
-                id="product-size"
-                name="productSize"
+                id="product-category"
+                name="productCategory"
                 type="text"
-                maxlength="40"
-                placeholder="Regular / Large"
+                maxlength="60"
+                placeholder="Milk Tea, Fruit Tea, Snacks"
                 required
               />
             </label>
-            <label class="input-block">
-              <span class="input-label">Price (PHP)</span>
+            <label class="input-block product-quantity-field">
+              <span class="input-label">Product QTY (flavor stock)</span>
               <input
-                id="product-price"
-                name="productPrice"
+                id="product-quantity"
+                name="productQuantity"
+                class="inventory-quantity-input"
                 type="number"
-                min="0.01"
-                step="0.01"
-                placeholder="99.00"
+                min="0"
+                step="1"
+                value="0"
                 required
               />
             </label>
@@ -92,6 +132,34 @@
                 required
               />
             </label>
+            <div class="variant-editor">
+              <div class="inventory-heading">
+                <h3>Sizes and shared category stock</h3>
+                <button
+                  id="add-product-size-button"
+                  class="sign-out-button"
+                  type="button"
+                >
+                  Add size
+                </button>
+              </div>
+              <p id="category-size-help" class="access-status">
+                Size stock is shared by every flavor in the same category.
+              </p>
+              <div class="table-wrap">
+                <table class="user-table">
+                  <thead>
+                    <tr>
+                      <th>Size</th>
+                      <th>Price (PHP)</th>
+                      <th>Shared Size QTY</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="product-variants-list"></tbody>
+                </table>
+              </div>
+            </div>
             <button id="save-product-button" class="input-button" type="submit">
               Save product
             </button>
@@ -102,10 +170,61 @@
             role="status"
             aria-live="polite"
           ></p>
+          <div class="inventory-heading">
+            <h3>Product QTY by flavor</h3>
+            <button
+              id="refresh-admin-products-button"
+              class="sign-out-button"
+              type="button"
+            >
+              Refresh
+            </button>
+          </div>
+          <p
+            id="admin-products-status"
+            class="access-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div class="table-wrap">
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Product QTY</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="admin-products-list"></tbody>
+            </table>
+          </div>
+          <div class="inventory-heading">
+            <h3>Shared Size QTY by category</h3>
+          </div>
+          <p
+            id="category-sizes-status"
+            class="access-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div class="table-wrap">
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Size</th>
+                  <th>Shared Size QTY</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="category-sizes-list"></tbody>
+            </table>
+          </div>
         </section>
         <section
           id="employee-management"
-          class="management-panel"
+          class="management-panel dashboard-view"
           aria-labelledby="employee-title"
           hidden
         >
@@ -142,7 +261,167 @@
               <tbody id="employee-list"></tbody>
             </table>
           </div>
+          </section>
+        <section
+          id="delete-products-panel"
+          class="management-panel dashboard-view"
+          aria-labelledby="delete-products-title"
+          hidden
+        >
+          <div class="management-heading">
+            <div>
+              <h2 id="delete-products-title">Delete Product</h2>
+              <p>
+                Remove a flavor and its sizes from the catalog. Recorded sales
+                history and shared category sizes will be kept.
+              </p>
+            </div>
+            <button
+              id="refresh-delete-products-button"
+              class="sign-out-button"
+              type="button"
+            >
+              Refresh
+            </button>
+          </div>
+          <p
+            id="delete-products-status"
+            class="access-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div class="table-wrap">
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Product QTY</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="delete-products-list"></tbody>
+            </table>
+          </div>
         </section>
+        <section
+          id="login-logout-logs"
+          class="management-panel dashboard-view"
+          aria-labelledby="login-logout-logs-title"
+          hidden
+        >
+          <div class="management-heading">
+            <div>
+              <h2 id="login-logout-logs-title">Login / Logout Logs</h2>
+              <p>Review account sign-in and sign-out times.</p>
+            </div>
+            <button
+              id="refresh-login-logout-logs-button"
+              class="sign-out-button"
+              type="button"
+            >
+              Refresh
+            </button>
+          </div>
+          <p
+            id="login-logout-logs-status"
+            class="access-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div class="table-wrap">
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Username</th>
+                  <th>Role</th>
+                  <th>Login Time</th>
+                  <th>Logout Time</th>
+                </tr>
+              </thead>
+              <tbody id="login-logout-logs-list"></tbody>
+            </table>
+          </div>
+        </section>
+        <section
+          id="sales-panel"
+          class="history-panel dashboard-view"
+          aria-labelledby="admin-sales-title"
+          hidden
+        >
+          <div class="management-heading">
+            <div>
+              <h2 id="admin-sales-title">Sales History</h2>
+              <p>
+                Review sales by period. Confirmed revenue includes Cash and
+                confirmed GCash payments, but excludes pending GCash. Revenue
+                is before expenses, not net profit.
+              </p>
+            </div>
+            <button
+              id="refresh-admin-sales-button"
+              class="sign-out-button"
+              type="button"
+            >
+              Refresh
+            </button>
+          </div>
+          <label class="sales-period-control">
+            <span class="input-label">Sales period</span>
+            <select id="admin-sales-period">
+              <option value="day">Today</option>
+              <option value="week">This week</option>
+              <option value="month">This month</option>
+              <option value="year">This year</option>
+              <option value="all">All time</option>
+            </select>
+          </label>
+          <div class="sales-summary" aria-live="polite">
+            <article class="sales-summary-card">
+              <span>Confirmed revenue</span>
+              <strong id="admin-sales-revenue">₱0.00</strong>
+            </article>
+            <article class="sales-summary-card">
+              <span>Sale items</span>
+              <strong id="admin-sales-count">0</strong>
+            </article>
+            <article class="sales-summary-card">
+              <span>Units sold</span>
+              <strong id="admin-sales-units">0</strong>
+            </article>
+          </div>
+          <p
+            id="sales-history-status"
+            class="access-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div class="table-wrap">
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Product</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                  <th>Payment Method</th>
+                  <th>Order Type</th>
+                  <th>Amount Given</th>
+                  <th>Change</th>
+                  <th>GCash Reference Number</th>
+                  <th>Payment Status</th>
+                  <th>Confirmed Amount</th>
+                  <th>Confirmed Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="sales-history-list"></tbody>
+            </table>
+          </div>
+        </section>
+        </div>
       </section>
     </main>
   </body>

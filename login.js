@@ -1,4 +1,9 @@
-import { supabase } from "./supabase-client.js";
+import {
+  ensureLoginTimedate,
+  recordLoginTimedate,
+  recordLogoutTimedate,
+  supabase,
+} from "./supabase-client.js";
 
 const elements = {
   form: document.querySelector("#auth-form"),
@@ -41,6 +46,18 @@ elements.form.addEventListener("submit", async (event) => {
     });
 
     if (error) throw error;
+    try {
+      await recordLoginTimedate(data.user);
+    } catch (logError) {
+      const { error: signOutError } = await supabase.auth.signOut();
+      const details =
+        logError instanceof Error ? logError.message : "Unknown database error.";
+      throw new Error(
+        signOutError
+          ? `Could not save login time: ${details} Sign-out also failed: ${signOutError.message}`
+          : `Could not save login time: ${details}`,
+      );
+    }
     await redirectToDashboard(data.user);
   } catch (error) {
     const message =
@@ -147,6 +164,12 @@ elements.togglePassword.addEventListener("click", () => {
 elements.signOutButton.addEventListener("click", async () => {
   elements.signOutButton.disabled = true;
   try {
+    const { data: sessionData, error: sessionError } =
+      await supabase.auth.getSession();
+    if (sessionError) throw sessionError;
+    if (sessionData.session?.user) {
+      await recordLogoutTimedate(sessionData.session.user);
+    }
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
     updateAccount(null);
@@ -169,6 +192,7 @@ if (error) {
   window.history.replaceState({}, "", window.location.pathname);
   showMessage("Email verified. Opening your dashboard…", true);
   try {
+    await ensureLoginTimedate(data.session.user);
     await redirectToDashboard(data.session.user);
   } catch (redirectError) {
     updateAccount(data.session.user);
@@ -179,6 +203,17 @@ if (error) {
     );
   }
 } else {
+  if (data.session?.user) {
+    try {
+      await ensureLoginTimedate(data.session.user);
+    } catch (error) {
+      showMessage(
+        error instanceof Error
+          ? `Could not save login time: ${error.message}`
+          : "Could not save login time.",
+      );
+    }
+  }
   updateAccount(data.session?.user ?? null);
 }
 
